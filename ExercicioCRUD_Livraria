@@ -1,0 +1,97 @@
+CREATE DATABASE exercicioLivro
+go
+Use exercicioLivro
+
+CREATE TABLE livro(
+idLivro INT              NOT NULL,
+nome    VARCHAR(100)     NULL,
+Lingua  VARCHAR(50)     NULL,
+ano     INT             NULL
+PRIMARY KEY(idLivro)
+)
+
+CREATE TABLE Autor(
+idAutor  INT               NOT NULL,
+nome      VARCHAR(100)     NULL,
+nascimento DATE            NULL,
+pais       VARCHAR(50)    NULL, 
+biografia   VARCHAR(max)  NULL
+PRIMARY KEY(idAutor)
+)
+
+CREATE TABLE Editora(
+idEditora     INT           NOT NULL,
+nome          VARCHAR(50)    NULL,
+logradouro    VARCHAR(255)  NULL,
+numero        INT           NULL,
+CEP           char(8)       NULL,
+telefone      char(11)      NULL
+PRIMARY KEY(idEditora)
+)
+
+CREATE TABLE Edicoes(
+ISBN    INT            NOT NULL,
+preco   DECIMAL(7,2)    NULL,
+ano     INT             NULL,
+numPag  INT             NULL,
+qtdEstoque INT          NULL
+PRIMARY KEY(ISBN)
+)
+
+CREATE TABLE livroAutor(
+livroIdLivro  INT not null,
+autorIdAutor  int not null
+PRIMARY KEY(livroIdLivro,autorIdAutor)
+FOREIGN KEY(livroIdLivro) REFERENCES livro(IdLivro),
+FOREIGN KEY(autorIdAutor) REFERENCES autor(IdAutor),
+)
+
+CREATE TABLE livroEdicoesEditora(
+edicoesISBN  int not null,
+editoraIdEditora int not null,
+livroIdLivro   int not null
+primary key (edicoesISBN,editoraIdEditora,livroIdLivro)
+FOREIGN KEY(edicoesISBN) REFERENCES Edicoes(ISBN),
+FOREIGN KEY(editoraIdEditora) REFERENCES editora(IdEditora),
+FOREIGN KEY(livroIdLivro) REFERENCES livro(IdLivro)
+)
+SELECT * FROM Editora
+
+EXEC sp_rename 'dbo.Edicoes.ano','AnoEdicao','column'
+ALTER TABLE Editora
+ALTER COLUMN nome VARCHAR(30)
+ALTER TABLE Autor
+drop column nascimento
+
+insert into livro values
+(1001,'CCNA 4.1','PT-BR',2015),
+(1002,'HTML 5','PT-BR',2017),
+(1003,'Redes de Computadores','PT-BR',2010),
+(1004,'Android em Ação','PT-BR',2018)
+
+insert into Autor values
+(10001,'Inácio da Silva', 1975,'Brasil','Programador WEB desde 1995'),
+(10002,'Andrew Tannenbaum', 1944,'EUA','Chefe do Departamento de Sistemas de Computação da Universidade de Vrij'),
+(10003,'Luis Rocha', 1967,'Brasil','Programador Mobile desde 2000'),
+(10004,'David Halliday', 1916,'EUA','Físico PH.D desde 1941')
+
+insert into livroAutor values
+(1001,10001),
+(1002,10003),
+(1003,10002),
+(1004,10003)
+
+insert into Edicoes values
+(0130661023,189.99,2018,653,10)
+
+
+UPDATE Autor
+set biografia = 'Chefe do Departamento de Sistemas de Computação da Universidade de Vrije '
+where idAutor = 10002
+
+UPDATE Edicoes
+set qtdEstoque = qtdEstoque - 2
+where ISBN = 0130661023
+
+DELETE Autor
+where nome = 'David Halliday'
