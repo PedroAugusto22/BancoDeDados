@@ -62,6 +62,7 @@ ALTER TABLE Editora
 ALTER COLUMN nome VARCHAR(30)
 ALTER TABLE Autor
 drop column nascimento
+ALTER TABLE Autor
 ADD Ano INT
 
 insert into livro values
