@@ -55,7 +55,7 @@ FOREIGN KEY(edicoesISBN) REFERENCES Edicoes(ISBN),
 FOREIGN KEY(editoraIdEditora) REFERENCES editora(IdEditora),
 FOREIGN KEY(livroIdLivro) REFERENCES livro(IdLivro)
 )
-SELECT * FROM Editora
+
 
 EXEC sp_rename 'dbo.Edicoes.ano','AnoEdicao','column'
 ALTER TABLE Editora
