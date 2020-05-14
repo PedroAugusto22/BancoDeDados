@@ -14,7 +14,7 @@ CREATE TABLE Autor(
 idAutor  INT               NOT NULL,
 nome      VARCHAR(100)     NULL,
 nascimento DATE            NULL,
-pais       VARCHAR(50)    NULL, 
+pais       VARCHAR(50)    NULL,
 biografia   VARCHAR(max)  NULL
 PRIMARY KEY(idAutor)
 )
@@ -62,6 +62,7 @@ ALTER TABLE Editora
 ALTER COLUMN nome VARCHAR(30)
 ALTER TABLE Autor
 drop column nascimento
+ADD Ano INT
 
 insert into livro values
 (1001,'CCNA 4.1','PT-BR',2015),
@@ -70,10 +71,10 @@ insert into livro values
 (1004,'Android em Ação','PT-BR',2018)
 
 insert into Autor values
-(10001,'Inácio da Silva', 1975,'Brasil','Programador WEB desde 1995'),
-(10002,'Andrew Tannenbaum', 1944,'EUA','Chefe do Departamento de Sistemas de Computação da Universidade de Vrij'),
-(10003,'Luis Rocha', 1967,'Brasil','Programador Mobile desde 2000'),
-(10004,'David Halliday', 1916,'EUA','Físico PH.D desde 1941')
+(10001,'Inácio da Silva','Brasil','Programador WEB desde 1995',1975),
+(10002,'Andrew Tannenbaum','EUA','Chefe do Departamento de Sistemas de Computação da Universidade de Vrij',1944),
+(10003,'Luis Rocha','Brasil','Programador Mobile desde 2000',1967),
+(10004,'David Halliday','EUA','Físico PH.D desde 1941', 1916)
 
 insert into livroAutor values
 (1001,10001),
