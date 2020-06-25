@@ -4,8 +4,8 @@ USE loja
 GO
 
 CREATE TABLE cliente(
-cpf			CHAR(11)		NOT NULL,
-nome		VARCHAR(100)	NOT NULL,
+cpf	        CHAR(11)		NOT NULL,
+nome		VARCHAR(100)	        NOT NULL,
 telefone	CHAR(8)			NOT NULL,
 PRIMARY	KEY (cpf)
 )
@@ -13,21 +13,21 @@ PRIMARY	KEY (cpf)
 GO
 
 CREATE TABLE fornecedor(
-id			INT				IDENTITY NOT NULL,
+id		INT             IDENTITY NOT NULL,
 nome		VARCHAR(100)	NOT NULL,
 logradouro	VARCHAR(100)	NOT NULL,
-numero		CHAR(5)			NOT NULL,
+numero		CHAR(5)		NOT NULL,
 complemento VARCHAR(10)		NOT NULL,
-cidade		VARCHAR(50)		NOT NULL
+cidade		VARCHAR(50)	NOT NULL
 PRIMARY KEY (id)
 )
 
 GO
 
 CREATE TABLE produto(
-codigo		INT				IDENTITY NOT NULL,
+codigo		INT		IDENTITY NOT NULL,
 descricao	VARCHAR(MAX)	NOT NULL,
-id_forn		INT				NOT NULL,
+id_forn		INT		NOT NULL,
 preco		DECIMAL(7,2)	NOT NULL
 PRIMARY KEY (codigo)
 FOREIGN KEY (id_forn) REFERENCES fornecedor (id)
@@ -36,11 +36,11 @@ FOREIGN KEY (id_forn) REFERENCES fornecedor (id)
 GO
 
 CREATE TABLE venda(
-codigo			INT				NOT NULL,
-cod_prod		INT				NOT NULL,
+codigo			INT			NOT NULL,
+cod_prod		INT			NOT NULL,
 cpf_cli			CHAR(11)		NOT NULL,
-quatidade		INT				NOT NULL,
-valor_total		DECIMAL(7,2)	NOT NULL,
+quatidade		INT			NOT NULL,
+valor_total		DECIMAL(7,2)    	NOT NULL,
 data_venda		DATE			NOT NULL
 PRIMARY KEY (codigo, cod_prod, cpf_cli, data_venda)
 FOREIGN KEY (cod_prod) REFERENCES produto (codigo),
@@ -60,11 +60,11 @@ GO
 
 INSERT INTO fornecedor VALUES
 ('LG', 'Rod. Bandeirantes', '70000', 'Km 70', 'Itapeva'),
-('Asus', 'Av. Nações Unidas', '10206', 'Sala 225', 'São Paulo'),
-('AMD', 'Av. Nações Unidas', '10206', 'Sala 1095', 'São Paulo'),
-('Leadership', 'Av. Nações Unidas', '10206', 'Sala 87', 'São Paulo'),
-('Inno', 'Av. Nações Unidas', '10206', 'Sala 34', 'São Paulo'),
-('Kingston', 'Av. Nações Unidas', '10206', 'Sala 18', 'São Paulo')
+('Asus', 'Av. NaÃ§Ãµes Unidas', '10206', 'Sala 225', 'SÃ£o Paulo'),
+('AMD', 'Av. NaÃ§Ãµes Unidas', '10206', 'Sala 1095', 'SÃ£o Paulo'),
+('Leadership', 'Av. NaÃ§Ãµes Unidas', '10206', 'Sala 87', 'SÃ£o Paulo'),
+('Inno', 'Av. NaÃ§Ãµes Unidas', '10206', 'Sala 34', 'SÃ£o Paulo'),
+('Kingston', 'Av. NaÃ§Ãµes Unidas', '10206', 'Sala 18', 'SÃ£o Paulo')
 
 GO
 
@@ -77,7 +77,7 @@ INSERT INTO produto VALUES
 ('Mouse', '4', '19.99'),
 ('Teclado', '4', '25.99'),
 ('Placa de Video - RTX 2060', '2', '2399.99'),
-('Pente de Memória 4GB DDR 4 2400 MHz', '5', '259.99')
+('Pente de MemÃ³ria 4GB DDR 4 2400 MHz', '5', '259.99')
 
 GO
 
@@ -92,9 +92,9 @@ INSERT INTO venda VALUES
 ('4', '2', '34578909290', '2', '1399.98', '2009-09-08')
 
 
---Quantos produtos não foram vendidos ?
+--Quantos produtos nÃ£o foram vendidos ?
 
-SELECT	COUNT(p.codigo) AS Total_Não_Vendidos
+SELECT	COUNT(p.codigo) AS Total_NÃ£o_Vendidos
 FROM produto p LEFT OUTER JOIN venda v
 ON p.codigo = v.cod_prod
 WHERE v.cod_prod IS NULL
@@ -120,7 +120,7 @@ ON c.cpf = v.cpf_cli
 GROUP BY c.nome
 ORDER BY SUM(v.quatidade)
 
---Nome do produto e Quantidade de vendas do produto com menor valor do catálogo de produtos
+--Nome do produto e Quantidade de vendas do produto com menor valor do catÃ¡logo de produtos
 
 SELECT	p.descricao,
 		SUM(v.quatidade) AS Quantidade_Vendas
@@ -137,7 +137,7 @@ FROM fornecedor f INNER JOIN produto p
 ON f.id = p.id_forn
 GROUP BY f.nome
 
---Considerando que hoje é 20/10/2009, consultar o código da compra, nome do cliente, telefone do cliente e quantos dias da data da compra
+--Considerando que hoje Ã© 20/10/2009, consultar o cÃ³digo da compra, nome do cliente, telefone do cliente e quantos dias da data da compra
 
 SELECT	v.codigo AS Codigo_Venda,
 		c.nome AS Nome_Cliente,
@@ -165,7 +165,7 @@ FROM cliente c INNER JOIN venda v
 ON c.cpf = v.cpf_cli
 GROUP BY c.cpf, c.nome, v.valor_total
 
---Código da compra, data da compra em formato (DD/MM/AAAA) e uma coluna, chamada dia_semana, que escreva o dia da semana por extenso
+--CÃ³digo da compra, data da compra em formato (DD/MM/AAAA) e uma coluna, chamada dia_semana, que escreva o dia da semana por extenso
 
 SET LANGUAGE 'Portuguese'
 SELECT	v.codigo AS Codigo_Venda,
